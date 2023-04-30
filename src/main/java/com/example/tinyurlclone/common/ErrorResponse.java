@@ -19,7 +19,11 @@ public class ErrorResponse {
     @JsonInclude(Include.NON_NULL)
     private List<Object> errors;
 
-    static public ErrorResponse BadRequestErrorReponse(String message, StackTraceElement[] stackTrace, List<Object> errors) {
+    static public ErrorResponse BadRequestErrorResponse(String message, StackTraceElement[] stackTrace, List<Object> errors) {
         return new ErrorResponse(400, message, new Date(), stackTrace, errors);
+    }
+
+    static public ErrorResponse ConflictErrorResponse(String message, StackTraceElement[] stackTrace, List<Object> errors) {
+        return new ErrorResponse(409, message, new Date(), stackTrace, errors);
     }
 }

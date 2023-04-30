@@ -28,7 +28,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         boolean stackTraceincluded = Objects.equals(request.getParameter("trace"), "true");
 
         List<String> errors = MethodArgumentNotValidException.errorsToStringList(ex.getAllErrors());
-        ErrorResponse errorResponse = ErrorResponse.BadRequestErrorReponse(
+        ErrorResponse errorResponse = ErrorResponse.BadRequestErrorResponse(
                 "validation failed",
                 stackTraceincluded ? ex.getStackTrace() : null, Collections.singletonList(errors)
         );
@@ -46,10 +46,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
 
 
 
-        ErrorResponse errorResponse = ErrorResponse.BadRequestErrorReponse(
+        ErrorResponse errorResponse = ErrorResponse.BadRequestErrorResponse(
                 ex.getMessage(),
                 stackTraceincluded ? ex.getStackTrace() : null, null
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({ConflictException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<?> handleConflictException(ConflictException ex, WebRequest request) {
+        boolean stackTraceincluded = Objects.equals(request.getParameter("trace"), "true");
+
+        ErrorResponse errorResponse = ErrorResponse.ConflictErrorResponse(
+                ex.getMessage(),
+                stackTraceincluded ? ex.getStackTrace() : null, null
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 }

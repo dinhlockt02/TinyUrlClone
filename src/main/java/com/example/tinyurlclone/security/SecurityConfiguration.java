@@ -36,6 +36,8 @@ public class SecurityConfiguration {
                             .permitAll()
                         .requestMatchers("/error**")
                             .permitAll()
+                        .requestMatchers("/api/v1/url/**")
+                            .permitAll()
                         .anyRequest()
                             .authenticated()
                 .and()
