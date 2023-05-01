@@ -1,8 +1,14 @@
 package com.example.tinyurlclone.common;
 
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.google.common.primitives.Ints;
 import com.google.common.primitives.Longs;
@@ -10,6 +16,7 @@ import com.google.common.primitives.Shorts;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.checkerframework.checker.guieffect.qual.UI;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
@@ -25,6 +32,7 @@ import java.util.Base64;
 @Getter
 @RequiredArgsConstructor
 @JsonSerialize(using = JacksonUIDSerializer.class)
+@JsonDeserialize(using = JacksonUIDDeserializer.class)
 public class UID {
     private final long localID;
     private final ObjectID objectID;
@@ -78,5 +86,26 @@ class JacksonUIDSerializer extends StdSerializer<UID> {
     @Override
     public void serialize(UID uid, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
             jsonGenerator.writeString(uid.toString());
+    }
+}
+
+class JacksonUIDDeserializer extends StdDeserializer<UID> {
+
+    public JacksonUIDDeserializer() {
+        this(null);
+    }
+
+    public JacksonUIDDeserializer(Class<?> vc) {
+        super(vc);
+    }
+
+    @Override
+    public UID deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
+        String id = jsonParser.readValueAs(String.class);
+        try {
+            return new UID(id);
+        } catch (Exception e) {
+            throw new JsonMappingException(e.getMessage());
+        }
     }
 }

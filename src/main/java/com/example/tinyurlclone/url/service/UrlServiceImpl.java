@@ -1,9 +1,12 @@
 package com.example.tinyurlclone.url.service;
 
+import com.example.tinyurlclone.common.ObjectID;
+import com.example.tinyurlclone.common.UID;
 import com.example.tinyurlclone.exception.ConflictException;
 import com.example.tinyurlclone.url.dto.CreateUrlDto;
 import com.example.tinyurlclone.url.dto.UrlDto;
 import com.example.tinyurlclone.url.model.Url;
+import com.example.tinyurlclone.url.repository.RedisUrlRepository;
 import com.example.tinyurlclone.url.repository.UrlRepository;
 import com.example.tinyurlclone.user.model.User;
 import com.example.tinyurlclone.user.service.UserService;
@@ -11,13 +14,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UrlServiceImpl implements UrlService{
 
     private final UrlRepository urlRepository;
-    private UserService userService;
+    private final UserService userService;
+    private final RedisUrlRepository redisRepository;
 
     @Override
     public UrlDto createUrl(CreateUrlDto dto) {
@@ -45,13 +50,31 @@ public class UrlServiceImpl implements UrlService{
 
     @Override
     public UrlDto findUrlById(Long id) {
+        Optional<UrlDto> urlDto = redisRepository.getUrl(new UID(id, ObjectID.URL).toString());
+        if (urlDto.isPresent()) {
+            return urlDto.get();
+        }
         var url = urlRepository.findById(id).orElse(null);
-        return UrlDto.GetUrlDto(url);
+        if (url == null) {
+            return null;
+        }
+        UrlDto dto = UrlDto.GetUrlDto(url);
+        redisRepository.setUrl(dto);
+        return dto;
     }
 
     @Override
     public UrlDto findUrlByAlias(String alias) {
+        Optional<UrlDto> urlDto = redisRepository.getUrl(alias);
+        if (urlDto.isPresent()) {
+            return urlDto.get();
+        }
         var url = urlRepository.findByAlias(alias).orElse(null);
-        return UrlDto.GetUrlDto(url);
+        if (url == null) {
+            return null;
+        }
+        UrlDto dto = UrlDto.GetUrlDto(url);
+        redisRepository.setUrl(dto);
+        return dto;
     }
 }

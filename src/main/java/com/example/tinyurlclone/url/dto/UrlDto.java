@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class UrlDto {
 
     private UID id;

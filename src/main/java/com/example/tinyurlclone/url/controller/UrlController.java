@@ -38,7 +38,7 @@ public class UrlController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UrlDto> createUrl(
+    public ResponseEntity<UrlDto> getUrl(
             @PathVariable("id") String id
     ) {
         UrlDto urlDto;
@@ -53,6 +53,6 @@ public class UrlController {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.created(URI.create("/url/" + urlDto.getId().toString())).body(urlDto);
+        return ResponseEntity.ok(urlDto);
     }
 }
