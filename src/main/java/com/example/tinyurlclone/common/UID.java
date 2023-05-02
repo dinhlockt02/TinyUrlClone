@@ -31,6 +31,7 @@ import java.util.Base64;
 
 @Getter
 @RequiredArgsConstructor
+@AllArgsConstructor
 @JsonSerialize(using = JacksonUIDSerializer.class)
 @JsonDeserialize(using = JacksonUIDDeserializer.class)
 public class UID {

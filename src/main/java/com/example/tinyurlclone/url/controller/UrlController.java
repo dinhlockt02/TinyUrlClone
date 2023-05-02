@@ -37,21 +37,11 @@ public class UrlController {
         return ResponseEntity.created(URI.create("/url/" + urlDto.getId().toString())).body(urlDto);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{alias}")
     public ResponseEntity<UrlDto> getUrl(
-            @PathVariable("id") String id
+            @PathVariable("alias") String alias
     ) {
-        UrlDto urlDto;
-
-        if (UID.isUID(id, ObjectID.URL)) {
-            var uid = new UID(id);
-            urlDto = urlService.findUrlById(uid.getLocalID());
-        } else {
-            urlDto = urlService.findUrlByAlias(id);
-        }
-        if (urlDto == null) {
-            return ResponseEntity.notFound().build();
-        }
+        UrlDto urlDto = urlService.findUrlByAlias(alias);
 
         return ResponseEntity.ok(urlDto);
     }

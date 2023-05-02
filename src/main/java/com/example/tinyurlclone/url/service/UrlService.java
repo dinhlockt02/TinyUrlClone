@@ -5,6 +5,5 @@ import com.example.tinyurlclone.url.dto.UrlDto;
 
 public interface UrlService {
     UrlDto createUrl(CreateUrlDto dto);
-    UrlDto findUrlById(Long id);
     UrlDto findUrlByAlias(String alias);
 }
