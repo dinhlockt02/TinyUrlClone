@@ -1,5 +1,7 @@
 package com.example.tinyurlclone.security.model;
 
+import com.example.tinyurlclone.common.ObjectID;
+import com.example.tinyurlclone.common.UID;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,6 +15,14 @@ public class User implements UserDetails {
 
     private com.example.tinyurlclone.user.model.User user;
 
+    public String getId() {
+        UID uid = new UID(user.getId(), ObjectID.USER);
+        return uid.toString();
+    }
+
+    public com.example.tinyurlclone.user.model.User getInnerUser() {
+        return this.user;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import software.amazon.awssdk.http.apache.ApacheHttpClient;
+import software.amazon.awssdk.services.s3.S3Client;
 
 @SpringBootApplication()
 public class TinyUrlCloneApplication {
@@ -30,5 +32,7 @@ public class TinyUrlCloneApplication {
 		template.setConnectionFactory(redisConnectionFactory());
 		return template;
 	}
+
+
 
 }

@@ -64,4 +64,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler{
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler({BadRequestException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<?> handleBadRequestException(BadRequestException ex, WebRequest request) {
+        boolean stackTraceincluded = Objects.equals(request.getParameter("trace"), "true");
+
+        ErrorResponse errorResponse = ErrorResponse.BadRequestErrorResponse(
+                ex.getMessage(),
+                stackTraceincluded ? ex.getStackTrace() : null, null
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 }

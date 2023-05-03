@@ -26,3 +26,10 @@ create table if not exists `kgs_keys` (
     `id` bigint auto_increment primary key,
     `machine_id` smallint
 );
+
+create table if not exists `image` (
+    `id` bigint auto_increment primary key,
+    `type` varchar(64) not null,
+    `owner_id` bigint not null,
+    `name` varchar(255) not null
+)
