@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService{
                 .firstName(registerDTO.getFirstName())
                 .lastName(registerDTO.getLastName())
                 .build();
-        user = userService.create(user);
+        user = userService.save(user);
 
 
         String accessToken = getAccessTokenFromUser(user);

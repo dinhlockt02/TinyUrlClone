@@ -1,5 +1,6 @@
 package com.example.tinyurlclone.user.model;
 
+import com.example.tinyurlclone.image.model.Image;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -31,6 +32,10 @@ public class User {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @OneToOne
+    @JoinColumn(name = "avatar")
+    private Image image;
 
     @Override
     public boolean equals(Object o) {

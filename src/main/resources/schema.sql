@@ -3,7 +3,8 @@ create table if not exists `user` (
     `email`      varchar(255) not null unique,
     `first_name` varchar(255) not null,
     `last_name`  varchar(255) not null,
-    `password`   varchar(255) not null
+    `password`   varchar(255) not null,
+    `avatar` bigint
 );
 
 create table if not exists `refresh_token` (

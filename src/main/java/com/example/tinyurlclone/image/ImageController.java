@@ -39,7 +39,8 @@ public class ImageController {
             byte[] fileBytes = file.getBytes();
             String contentType = file.getContentType();
             ImageType imageType = ImageType.valueOf(type.toUpperCase());
-            ImageDto imageDto = imageService.upload(fileBytes, filename, contentType, imageType, user.getInnerUser());
+            var image = imageService.upload(fileBytes, filename, contentType, imageType, user.getInnerUser());
+            ImageDto imageDto = imageService.getImageDto(image);
             return ResponseEntity.status(HttpStatus.CREATED).body(imageDto);
         } catch (IllegalArgumentException e) {
             throw new BadRequestException(e.getMessage());

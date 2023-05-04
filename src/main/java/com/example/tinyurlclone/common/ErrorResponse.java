@@ -26,4 +26,8 @@ public class ErrorResponse {
     static public ErrorResponse ConflictErrorResponse(String message, StackTraceElement[] stackTrace, List<Object> errors) {
         return new ErrorResponse(409, message, new Date(), stackTrace, errors);
     }
+    static public ErrorResponse ForbiddenResponse(String message, StackTraceElement[] stackTrace, List<Object> errors) {
+        return new ErrorResponse(403, message, new Date(), stackTrace, errors);
+    }
+
 }

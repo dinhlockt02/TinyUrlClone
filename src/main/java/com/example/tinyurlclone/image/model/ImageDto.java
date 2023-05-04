@@ -26,9 +26,11 @@ public class ImageDto {
     @JsonProperty("type")
     private ImageType type;
     @JsonGetter("url")
-    private String getUrl() {
+    public String getUrl() {
         return urlPrefix + name;
     }
+    @JsonIgnore
+    private Long ownerId;
 
     public static class ImageDtoBuilder {
         private UID uid;
